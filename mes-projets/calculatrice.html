@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculatrice simple</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .calculator {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      width: 320px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #007BFF;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: #333;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <h2>Calculatrice</h2>
+  
+  <div class="error" id="error"></div>
+  
+  <input type="number" id="nombre1" placeholder="Entrez le premier nombre">
+  <input type="number" id="nombre2" placeholder="Entrez le deuxième nombre">
+  
+  <select id="operation">
+    <option value="">Sélectionnez l'opération</option>
+    <option value="+">Addition (+)</option>
+    <option value="-">Soustraction (-)</option>
+    <option value="*">Multiplication (*)</option>
+    <option value="/">Division (/)</option>
+  </select>
+  
+  <button id="btn_calculer">Calculer</button>
+  
+  <div class="result" id="resultat"></div>
+</div>
+
+<script>
+const nombre1 = document.getElementById("nombre1");
+const nombre2 = document.getElementById("nombre2");
+const operation = document.getElementById("operation");
+const btn = document.getElementById("btn_calculer");
+const resultat = document.getElementById("resultat");
+const error = document.getElementById("error");
+
+btn.addEventListener("click", () => {
+
+  resultat.textContent = "";
+  error.textContent = "";
+
+  let n1 = Number(nombre1.value);
+  let n2 = Number(nombre2.value);
+  let op = operation.value;
+
+  if (isNaN(n1) || isNaN(n2)) {
+    error.textContent = "Veuillez entrer des nombres valides.";
+    return;
+  }
+  if (!op) {
+    error.textContent = "Veuillez sélectionner une opération.";
+    return;
+  }
+  if (op === "/" && n2 === 0) {
+    error.textContent = "Erreur : division par zéro impossible !";
+    return;
+  }
+
+
+  let res;
+  switch(op) {
+    case "+": res = n1 + n2; break;
+    case "-": res = n1 - n2; break;
+    case "*": res = n1 * n2; break;
+    case "/": res = n1 / n2; break;
+  }
+
+  resultat.textContent = `Résultat : ${n1} ${op} ${n2} = ${res}`;
+});
+</script>
+
+</body>
+</html>

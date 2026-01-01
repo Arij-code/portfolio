@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulaire d'inscription</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+  }
+  .container {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 400px;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  .error {
+    color: red;
+    font-size: 12px;
+    height: 14px;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border: none;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  button:hover {
+    background-color: #218838;
+  }
+  textarea {
+    resize: none;
+    margin-top: 10px;
+    height: 60px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Formulaire d'inscription</h2>
+
+  <div>
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" placeholder="Entrez votre nom">
+    <div class="error"></div>
+  </div>
+
+  <div>
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" placeholder="Entrez votre prénom">
+    <div class="error"></div>
+  </div>
+
+  <div>
+    <label>Sexe:</label>
+    <input type="radio" name="sexe" id="homme"> Homme
+    <input type="radio" name="sexe" id="femme"> Femme
+    <div class="error"></div>
+  </div>
+
+  <div>
+    <label for="dateN">Date de naissance:</label>
+    <input type="date" id="dateN">
+    <div class="error"></div>
+  </div>
+
+  <div>
+    <label for="lieu">Lieu de naissance:</label>
+    <select id="lieu">
+      <option value="">--Sélectionnez une ville--</option>
+      <option value="Tunis">Tunis</option>
+      <option value="Sfax">Sfax</option>
+      <option value="Sousse">Sousse</option>
+      <option value="Autre">Autre</option>
+    </select>
+    <div class="error"></div>
+  </div>
+
+  <div>
+    <label>
+      <input type="checkbox" id="emploie"> Sans emploi
+    </label>
+  </div>
+
+  <button onclick="afficher()">Valider</button>
+
+  <textarea id="phrase" readonly placeholder="Votre message apparaîtra ici..."></textarea>
+</div>
+
+<script>
+let nom = document.getElementById("nom");
+let prenom = document.getElementById("prenom");
+let lieu = document.getElementById("lieu");
+let dateN = document.getElementById("dateN");
+let sexe = document.getElementsByName("sexe");
+let emploie = document.getElementById("emploie");
+let phrase = document.getElementById("phrase");
+
+function afficher() {
+  document.querySelectorAll(".error").forEach((e) => (e.textContent = ""));
+  let ok = true;
+
+  if (nom.value.trim() === "") {
+    nom.parentElement.querySelector(".error").textContent = "Le nom est obligatoire.";
+    ok = false;
+  }
+  if (prenom.value.trim() === "") {
+    prenom.parentElement.querySelector(".error").textContent = "Le prénom est obligatoire.";
+    ok = false;
+  }
+  if (!document.getElementById("homme").checked && !document.getElementById("femme").checked) {
+    sexe[0].parentElement.querySelector(".error").textContent = "Veuillez sélectionner un sexe.";
+    ok = false;
+  }
+  if (dateN.value === "") {
+    dateN.parentElement.querySelector(".error").textContent = "Veuillez introduire votre date de naissance.";
+    ok = false;
+  } else if (calculAge() < 18) {
+    dateN.parentElement.querySelector(".error").textContent = "Votre âge doit être ≥ 18 ans.";
+    ok = false;
+  }
+  if (lieu.value === "") {
+    lieu.parentElement.querySelector(".error").textContent = "Veuillez choisir une ville.";
+    ok = false;
+  }
+
+  if (ok) {
+    let msg = "Monsieur ";
+    if (document.getElementById("femme").checked) msg = "Mme ";
+    msg += `${prenom.value} ${nom.value}, né(e) le ${dateN.value} à ${lieu.value}.`;
+    if (emplsoie.checked) msg += " Actuellement vous êtes sans emploi!";
+    phrase.value = msg;
+  }
+}
+
+function calculAge() {
+  let datej = new Date();
+  let dn = new Date(dateN.value);
+  let age = Math.floor((datej - dn) / (1000 * 3600 * 24 * 365));
+  return age;
+}
+</script>
+
+</body>
+</html>
